@@ -5,6 +5,7 @@ const cors = require("cors");
 
 const connectDB = require("../config/database");
 const authRoutes = require("../routes/authRoutes");
+const projectRoutes = require("../routes/projectRoutes");
 const app = express();
 
 connectDB();
@@ -12,6 +13,7 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 app.use("/api/auth", authRoutes);
+app.use("/api/projects", projectRoutes);
 app.get("/api/health", (req, res) => {
     res.status(200).json({
         ok: true,

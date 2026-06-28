@@ -1,10 +1,36 @@
-// client/src/store/useStudioStore.js
+import { create } from "zustand";
 
-// Simple local store placeholder
+const useStudioStore = create((set) => ({
+  user: null,
+  token: localStorage.getItem("token") || null,
+  projects: [],
+  loading: false,
 
-import { useState } from 'react';
+  setUser: (user) => set({ user }),
 
-export function useStudioStore() {
-  const [state, setState] = useState({});
-  return [state, setState];
-}
+  setToken: (token) => {
+    if (token) {
+      localStorage.setItem("token", token);
+    } else {
+      localStorage.removeItem("token");
+    }
+
+    set({ token });
+  },
+
+  setProjects: (projects) => set({ projects }),
+
+  setLoading: (loading) => set({ loading }),
+
+  logout: () => {
+    localStorage.removeItem("token");
+
+    set({
+      user: null,
+      token: null,
+      projects: [],
+    });
+  },
+}));
+
+export default useStudioStore;
