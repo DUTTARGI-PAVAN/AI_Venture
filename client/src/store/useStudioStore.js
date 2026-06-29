@@ -4,6 +4,8 @@ const useStudioStore = create((set) => ({
   user: null,
   token: localStorage.getItem("token") || null,
   projects: [],
+  selectedProject: null,
+  analysesByProject: {},
   loading: false,
 
   setUser: (user) => set({ user }),
@@ -20,6 +22,16 @@ const useStudioStore = create((set) => ({
 
   setProjects: (projects) => set({ projects }),
 
+  setSelectedProject: (selectedProject) => set({ selectedProject }),
+
+  setProjectAnalysis: (projectId, analysis) =>
+    set((state) => ({
+      analysesByProject: {
+        ...state.analysesByProject,
+        [projectId]: analysis,
+      },
+    })),
+
   setLoading: (loading) => set({ loading }),
 
   logout: () => {
@@ -29,6 +41,8 @@ const useStudioStore = create((set) => ({
       user: null,
       token: null,
       projects: [],
+      selectedProject: null,
+      analysesByProject: {},
     });
   },
 }));

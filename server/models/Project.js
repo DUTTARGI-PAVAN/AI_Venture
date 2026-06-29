@@ -28,6 +28,12 @@ const projectSchema = new mongoose.Schema(
       enum: ["Idea", "MVP", "Growth", "Scale"],
       default: "Idea",
     },
+
+    latestAnalysis: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Analysis",
+      default: null,
+    },
   },
   {
     timestamps: true,

@@ -65,7 +65,7 @@ exports.getProject = async (req, res) => {
     const project = await Project.findOne({
       _id: req.params.id,
       user: req.user.id,
-    });
+    }).populate("latestAnalysis");
 
     if (!project) {
       return res.status(404).json({

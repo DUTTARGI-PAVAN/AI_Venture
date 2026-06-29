@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useEffect } from "react";
 
 import AuthPage from "./pages/AuthPage";
 import DashboardPage from "./pages/DashboardPage";
@@ -7,7 +8,6 @@ import BoardroomPage from "./pages/BoardroomPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
 
 import useStudioStore from "./store/useStudioStore";
-import { useEffect } from "react";
 import api from "./services/api";
 
 function ProtectedRoute({ children }) {
@@ -21,26 +21,26 @@ function ProtectedRoute({ children }) {
 }
 
 export default function App() {
-  const { token, setUser } = useStudioStore();
+  const { token, setUser, logout } = useStudioStore();
 
-useEffect(() => {
-  const loadUser = async () => {
-    if (!token) return;
+  useEffect(() => {
+    const loadUser = async () => {
+      if (!token) return;
 
-    try {
-      const { data } = await api.get("/auth/me");
-      setUser(data.user);
-    } catch {
-      localStorage.removeItem("token");
-    }
-  };
+      try {
+        const { data } = await api.get("/auth/me");
+        setUser(data.user || data);
+      } catch {
+        logout();
+      }
+    };
 
-  loadUser();
-}, []);
+    loadUser();
+  }, [logout, setUser, token]);
+
   return (
     <BrowserRouter>
       <Routes>
-
         <Route path="/auth" element={<AuthPage />} />
 
         <Route
@@ -53,7 +53,7 @@ useEffect(() => {
         />
 
         <Route
-          path="/projects"
+          path="/projects/:id"
           element={
             <ProtectedRoute>
               <ProjectPage />
@@ -79,11 +79,8 @@ useEffect(() => {
           }
         />
 
-        <Route
-          path="*"
-          element={<Navigate to="/dashboard" replace />}
-        />
-
+        <Route path="/projects" element={<Navigate to="/dashboard" replace />} />
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </BrowserRouter>
   );
