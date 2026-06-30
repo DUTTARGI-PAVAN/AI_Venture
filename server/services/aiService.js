@@ -3,6 +3,7 @@ const { buildStartupValidationPrompt } = require("./prompts/startupValidationPro
 
 const OLLAMA_BASE_URL = process.env.OLLAMA_BASE_URL || "http://localhost:11434";
 const OLLAMA_MODEL = process.env.OLLAMA_MODEL || "llama3.2";
+console.log("OLLAMA_MODEL:", OLLAMA_MODEL);
 
 function extractJson(text) {
   if (!text || typeof text !== "string") {

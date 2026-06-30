@@ -1,8 +1,9 @@
-// server/routes/analyticsRoutes.js
-
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-// Analytics routes placeholder
+const authMiddleware = require("../middleware/authMiddleware");
+const analyticsController = require("../controllers/analyticsController");
+
+router.get("/", authMiddleware, analyticsController.getAnalytics);
 
 module.exports = router;

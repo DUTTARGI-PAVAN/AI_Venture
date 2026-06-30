@@ -7,6 +7,7 @@ const connectDB = require("../config/database");
 const authRoutes = require("../routes/authRoutes");
 const projectRoutes = require("../routes/projectRoutes");
 const aiRoutes = require("../routes/aiRoutes");
+const analyticsRoutes = require("../routes/analyticsRoutes");
 const app = express();
 
 connectDB();
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/ai", aiRoutes);
+app.use("/api/analytics", analyticsRoutes);
 app.get("/api/health", (req, res) => {
     res.status(200).json({
         ok: true,
