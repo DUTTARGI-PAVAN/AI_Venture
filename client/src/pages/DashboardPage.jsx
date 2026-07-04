@@ -133,6 +133,10 @@ export default function DashboardPage() {
     navigate(`/projects/${projectId}`);
   };
 
+  const handleBoardroom = (projectId) => {
+  navigate(`/boardroom/${projectId}`);
+};
+
   const handleLogout = () => {
     logout();
     navigate("/auth", { replace: true });
@@ -176,14 +180,15 @@ export default function DashboardPage() {
             ) : projects.length > 0 ? (
               <div className="project-grid">
                 {projects.map((project) => (
-                  <ProjectCard
-                    key={project._id}
-                    project={project}
-                    onOpen={handleOpenProject}
-                    onEdit={openEditModal}
-                    onDelete={handleDeleteProject}
-                  />
-                ))}
+  <ProjectCard
+    key={project._id}
+    project={project}
+    onOpen={handleOpenProject}
+    onEdit={openEditModal}
+    onDelete={handleDeleteProject}
+    onBoardroom={handleBoardroom}
+  />
+))}
               </div>
             ) : (
               <EmptyState

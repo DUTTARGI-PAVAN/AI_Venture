@@ -62,13 +62,13 @@ export default function App() {
         />
 
         <Route
-          path="/boardroom"
-          element={
-            <ProtectedRoute>
-              <BoardroomPage />
-            </ProtectedRoute>
-          }
-        />
+  path="/boardroom/:projectId"
+  element={
+    <ProtectedRoute>
+      <BoardroomPage />
+    </ProtectedRoute>
+  }
+/>
 
         <Route
           path="/analytics"

@@ -1,10 +1,21 @@
-import { Edit, ExternalLink, Trash2 } from "lucide-react";
+import {
+  Edit,
+  ExternalLink,
+  Trash2,
+  Users,
+} from "lucide-react";
 
 function getProjectValue(value, fallback) {
   return value && String(value).trim() ? value : fallback;
 }
 
-export default function ProjectCard({ project, onOpen, onEdit, onDelete }) {
+export default function ProjectCard({
+  project,
+  onOpen,
+  onEdit,
+  onDelete,
+  onBoardroom,
+}) {
   const title = getProjectValue(project?.title, "Untitled Project");
   const description = getProjectValue(
     project?.description,
@@ -48,6 +59,17 @@ export default function ProjectCard({ project, onOpen, onEdit, onDelete }) {
             Delete
           </button>
         ) : null}
+
+        {onBoardroom ? (
+  <button
+    type="button"
+    className="btn btn--secondary btn--small"
+    onClick={() => onBoardroom(projectId)}
+  >
+    <Users size={16} />
+    Boardroom
+  </button>
+) : null}
 
         {onOpen ? (
           <button

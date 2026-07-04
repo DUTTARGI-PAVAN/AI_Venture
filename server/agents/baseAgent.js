@@ -15,16 +15,45 @@ function extractJSON(text) {
 
   try {
     return JSON.parse(trimmed);
-  } catch (err) {
+  } catch {
     const start = trimmed.indexOf("{");
     const end = trimmed.lastIndexOf("}");
 
-    if (start === -1 || end ===-1) {
+    if (start === -1 || end === -1) {
       throw new Error("Invalid JSON returned by Ollama.");
     }
 
     return JSON.parse(trimmed.substring(start, end + 1));
   }
+}
+
+function normalizeArray(value) {
+  if (!Array.isArray(value)) return [];
+
+  return value.map((item) => {
+    if (typeof item === "string") return item;
+
+    if (item && typeof item === "object") {
+      return item.value || item.name || JSON.stringify(item);
+    }
+
+    return String(item);
+  });
+}
+
+function normalizeAgentResponse(data) {
+  return {
+    role: data.role || "AI Agent",
+    score: Number(data.score) || 0,
+    opinion:
+  typeof data.opinion === "string" && data.opinion.trim().length > 0
+    ? data.opinion.trim()
+    : "No opinion provided.",
+
+    strengths: normalizeArray(data.strengths),
+    concerns: normalizeArray(data.concerns),
+    recommendations: normalizeArray(data.recommendations),
+  };
 }
 
 async function runAgent(systemPrompt, userPrompt) {
@@ -39,7 +68,7 @@ async function runAgent(systemPrompt, userPrompt) {
 ${systemPrompt}
 
 ${userPrompt}
-        `,
+`,
         options: {
           temperature: 0.4,
         },
@@ -49,12 +78,18 @@ ${userPrompt}
       }
     );
 
-    return extractJSON(response.data.response);
+    const parsed = extractJSON(response.data.response);
+
+const normalized = normalizeAgentResponse(parsed);
+
+console.log("Normalized Agent:", normalized);
+
+return normalized;
   } catch (err) {
     throw new Error(
       err?.response?.data?.error ||
-      err.message ||
-      "Failed to execute AI agent."
+        err.message ||
+        "Failed to execute AI agent."
     );
   }
 }

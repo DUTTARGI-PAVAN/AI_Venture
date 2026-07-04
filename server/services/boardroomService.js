@@ -6,6 +6,12 @@ const CFOAgent = require("../agents/CFOAgent");
 const CMOAgent = require("../agents/CMOAgent");
 const InvestorAgent = require("../agents/InvestorAgent");
 
+console.log("CEO:", typeof CEOAgent);
+console.log("CTO:", typeof CTOAgent);
+console.log("CFO:", typeof CFOAgent);
+console.log("CMO:", typeof CMOAgent);
+console.log("Investor:", typeof InvestorAgent);
+
 function calculateAverageScore(agentResponses) {
   if (!agentResponses.length) return 0;
 
@@ -50,13 +56,27 @@ function finalDecision(score) {
 }
 
 async function runBoardroom(project, analysis, userId) {
-  const agents = await Promise.all([
-    CEOAgent(project, analysis),
-    CTOAgent(project, analysis),
-    CFOAgent(project, analysis),
-    CMOAgent(project, analysis),
-    InvestorAgent(project, analysis),
-  ]);
+  console.log("Running CEO...");
+const ceo = await CEOAgent(project, analysis);
+console.log("CEO finished");
+
+console.log("Running CTO...");
+const cto = await CTOAgent(project, analysis);
+console.log("CTO finished");
+
+console.log("Running CFO...");
+const cfo = await CFOAgent(project, analysis);
+console.log("CFO finished");
+
+console.log("Running CMO...");
+const cmo = await CMOAgent(project, analysis);
+console.log("CMO finished");
+
+console.log("Running Investor...");
+const investor = await InvestorAgent(project, analysis);
+console.log("Investor finished");
+
+const agents = [ceo, cto, cfo, cmo, investor];
 
   const averageScore = calculateAverageScore(agents);
 
