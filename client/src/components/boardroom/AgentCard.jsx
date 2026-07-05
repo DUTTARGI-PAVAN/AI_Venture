@@ -1,15 +1,45 @@
+import {
+  Briefcase,
+  Cpu,
+  DollarSign,
+  Megaphone,
+  Landmark,
+  CheckCircle2,
+  AlertTriangle,
+  Lightbulb,
+} from "lucide-react";
+
 import ScoreMeter from "./ScoreMeter";
 
-const roleColors = {
-  CEO: "#2563eb",
-  CTO: "#8b5cf6",
-  CFO: "#16a34a",
-  CMO: "#ea580c",
-  Investor: "#dc2626",
+const roleConfig = {
+  CEO: {
+    color: "#2563eb",
+    icon: Briefcase,
+  },
+  CTO: {
+    color: "#7c3aed",
+    icon: Cpu,
+  },
+  CFO: {
+    color: "#16a34a",
+    icon: DollarSign,
+  },
+  CMO: {
+    color: "#ea580c",
+    icon: Megaphone,
+  },
+  Investor: {
+    color: "#dc2626",
+    icon: Landmark,
+  },
 };
 
 export default function AgentCard({ agent }) {
-  const color = roleColors[agent.role] || "#2563eb";
+  const config = roleConfig[agent.role];
+
+const color = config?.color || "#2563eb";
+
+const Icon = config?.icon || Briefcase;
 
   return (
     <article className="panel boardroom-card">
@@ -17,11 +47,11 @@ export default function AgentCard({ agent }) {
       <div className="boardroom-card__header">
 
         <div
-          className="boardroom-avatar"
-          style={{ background: color }}
-        >
-          {agent.role.charAt(0)}
-        </div>
+  className="boardroom-avatar"
+  style={{ background: color }}
+>
+  <Icon size={20} color="white" />
+</div>
 
         <div>
 
@@ -37,17 +67,20 @@ export default function AgentCard({ agent }) {
 
       </div>
 
-      <div className="boardroom-section">
+      <div className="boardroom-section boardroom-strengths">
 
-        <h3>Opinion</h3>
+        <h3>💬 Opinion</h3>
 
         <p>{agent.opinion}</p>
 
       </div>
 
-      <div className="boardroom-section">
+      <div className="boardroom-section boardroom-strengths">
 
-        <h3>Strengths</h3>
+        <h3>
+  <CheckCircle2 size={16}/>
+  Strengths
+</h3>
 
         <ul>
 
@@ -63,9 +96,12 @@ export default function AgentCard({ agent }) {
 
       </div>
 
-      <div className="boardroom-section">
+      <div className="boardroom-section boardroom-concerns">
 
-        <h3>Concerns</h3>
+        <h3>
+  <AlertTriangle size={16}/>
+  Concerns
+</h3>
 
         <ul>
 
@@ -81,9 +117,12 @@ export default function AgentCard({ agent }) {
 
       </div>
 
-      <div className="boardroom-section">
+      <div className="boardroom-section boardroom-recommendations">
 
-        <h3>Recommendations</h3>
+        <h3>
+  <Lightbulb size={16}/>
+  Recommendations
+</h3>
 
         <ul>
 

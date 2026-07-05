@@ -13,6 +13,7 @@ import DecisionBadge from "../components/boardroom/DecisionBadge";
 
 import { getBoardroom, runBoardroom } from "../services/boardroomService";
 import useStudioStore from "../store/useStudioStore";
+import "../styles/boardroom.css";
 
 export default function BoardroomPage() {
   const { projectId } = useParams();
@@ -88,24 +89,25 @@ export default function BoardroomPage() {
           onLogout={handleLogout}
         />
 
-        <section className="topbar">
+        <section className="topbar boardroom-topbar">
 
           <div>
 
-            <p className="eyebrow">
-              AI BOARDROOM
-            </p>
+  <p className="eyebrow">
+    AI Executive Meeting
+  </p>
 
-            <h1 className="topbar__title">
-              Executive Board Discussion
-            </h1>
+  <h1 className="topbar__title">
+    🧠 AI Boardroom
+  </h1>
 
-            <p className="page-intro">
-              Five AI executives independently review your startup
-              before reaching a final investment decision.
-            </p>
+  <p className="page-intro">
+    Five AI executives independently evaluated your startup,
+    discussed its strengths and risks, and reached a collective
+    investment recommendation.
+  </p>
 
-          </div>
+</div>
 
           {!boardroom && (
 
