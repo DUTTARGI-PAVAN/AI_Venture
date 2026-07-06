@@ -9,6 +9,7 @@ const projectRoutes = require("../routes/projectRoutes");
 const aiRoutes = require("../routes/aiRoutes");
 const analyticsRoutes = require("../routes/analyticsRoutes");
 const boardroomRoutes = require("../routes/boardroomRoutes");
+const copilotRoutes = require("../routes/copilotRoutes");
 const app = express();
 
 connectDB();
@@ -20,6 +21,7 @@ app.use("/api/projects", projectRoutes);
 app.use("/api/ai", aiRoutes);
 app.use("/api/analytics", analyticsRoutes);
 app.use("/api/boardroom", boardroomRoutes);
+app.use("/api/copilot", copilotRoutes);
 app.get("/api/health", (req, res) => {
     res.status(200).json({
         ok: true,
@@ -43,4 +45,10 @@ app.get("/api/debug/projects", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+});
+
+const authMiddleware = require("../middleware/authMiddleware");
+
+app.get("/api/debug/me", authMiddleware, (req, res) => {
+  res.json(req.user);
 });

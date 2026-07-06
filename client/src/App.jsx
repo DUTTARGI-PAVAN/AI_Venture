@@ -8,6 +8,7 @@ import BoardroomPage from "./pages/BoardroomPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
 
 import useStudioStore from "./store/useStudioStore";
+import CopilotPage from "./pages/CopilotPage";
 import api from "./services/api";
 
 function ProtectedRoute({ children }) {
@@ -78,6 +79,15 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+  path="/copilot/:projectId"
+  element={
+    <ProtectedRoute>
+      <CopilotPage />
+    </ProtectedRoute>
+  }
+/>
 
         <Route path="/projects" element={<Navigate to="/dashboard" replace />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
