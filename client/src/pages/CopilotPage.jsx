@@ -9,7 +9,7 @@ import ChatInput from "../components/copilot/ChatInput";
 import TypingIndicator from "../components/copilot/TypingIndicator";
 import SuggestedPrompts from "../components/copilot/SuggestedPrompts";
 import EmptyChat from "../components/copilot/EmptyChat";
-import "./index.css";
+
 
 import {
   getChat,
@@ -52,6 +52,24 @@ export default function CopilotPage() {
 
     setLoading(false);
   }
+
+  async function handleSend(question) {
+  console.log("Question:", question);
+
+  setLoading(true);
+
+  try {
+    const data = await sendMessage(projectId, question);
+
+    console.log(data);
+
+    setMessages(data.messages);
+  } catch (err) {
+    console.error(err);
+  } finally {
+    setLoading(false);
+  }
+}
 
   return (
     <div className="app-shell">

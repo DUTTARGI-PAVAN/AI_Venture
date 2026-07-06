@@ -1,46 +1,38 @@
-import React, { useState } from 'react';
-import '../styles/copilot.css';
+import { useState } from "react";
 
-const ChatInput = ({ onSendMessage, isLoading }) => {
-  const [input, setInput] = useState('');
+export default function ChatInput({
+  onSend,
+  loading,
+}) {
+  const [text, setText] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (input.trim() && !isLoading) {
-      onSendMessage(input);
-      setInput('');
-    }
-  };
+  const submit = () => {
+    if (!text.trim()) return;
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSubmit(e);
-    }
+    onSend(text);
+
+    setText("");
   };
 
   return (
-    <form onSubmit={handleSubmit} className="chat-input-container">
-      <div className="chat-input-wrapper">
-        <textarea
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="Ask me anything..."
-          disabled={isLoading}
-          className="chat-input"
-          rows="1"
-        />
-        <button
-          type="submit"
-          disabled={!input.trim() || isLoading}
-          className="chat-send-button"
-        >
-          Send
-        </button>
-      </div>
-    </form>
-  );
-};
+    <div className="chat-input">
 
-export default ChatInput;
+      <input
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder="Ask your AI Startup Copilot..."
+        onKeyDown={(e) =>
+          e.key === "Enter" && submit()
+        }
+      />
+
+      <button
+        onClick={submit}
+        disabled={loading}
+      >
+        {loading ? "..." : "Send"}
+      </button>
+
+    </div>
+  );
+}

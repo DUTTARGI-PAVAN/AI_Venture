@@ -196,6 +196,13 @@ export default function ProjectPage() {
                     ) : null}
 
                     <button
+  className="btn btn--primary"
+  onClick={() => navigate(`/copilot/${id}`)}
+>
+  🤖 AI Copilot
+</button>
+
+                    <button
                       type="button"
                       className="btn btn--primary"
                       disabled={isAnalysisLoading}
@@ -207,12 +214,7 @@ export default function ProjectPage() {
                   </div>
                 </div>
 
-                <button
-  className="btn btn--primary"
-  onClick={() => navigate(`/copilot/${projectId}`)}
->
-  🤖 AI Copilot
-</button>
+                
 
                 {analysisError ? (
                   <div className="analysis-report__message">

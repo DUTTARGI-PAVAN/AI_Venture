@@ -1,15 +1,7 @@
-import React from 'react';
-import '../styles/copilot.css';
-
-const TypingIndicator = () => {
+export default function TypingIndicator() {
   return (
-    <div className="typing-indicator">
-      <div className="typing-dot"></div>
-      <div className="typing-dot"></div>
-      <div className="typing-dot"></div>
-      <span className="typing-text">Copilot is thinking...</span>
+    <div className="typing">
+      🤖 AI is thinking...
     </div>
   );
-};
-
-export default TypingIndicator;
+}

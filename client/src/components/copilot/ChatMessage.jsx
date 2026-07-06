@@ -1,15 +1,23 @@
-import React from 'react';
-import '../styles/copilot.css';
+import ReactMarkdown from "react-markdown";
 
-const ChatMessage = ({ message, isUser, timestamp }) => {
+export default function ChatMessage({ message }) {
+  const isUser = message.role === "user";
+
   return (
-    <div className={`chat-message ${isUser ? 'user-message' : 'assistant-message'}`}>
-      <div className="message-content">
-        <p>{message}</p>
-        {timestamp && <span className="message-timestamp">{timestamp}</span>}
+    <div className={`chat-message ${isUser ? "user" : "assistant"}`}>
+      <div className="chat-avatar">
+        {isUser ? "👤" : "🤖"}
+      </div>
+
+      <div className="chat-bubble">
+        {isUser ? (
+          <p>{message.content}</p>
+        ) : (
+          <ReactMarkdown>
+            {message.content}
+          </ReactMarkdown>
+        )}
       </div>
     </div>
   );
-};
-
-export default ChatMessage;
+}
