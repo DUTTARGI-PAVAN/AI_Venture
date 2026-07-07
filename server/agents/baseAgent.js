@@ -44,7 +44,7 @@ function normalizeArray(value) {
 function normalizeAgentResponse(data) {
   return {
     role: data.role || "AI Agent",
-    score: Number(data.score) || 0,
+    score: Math.max(0, Math.min(100, Number(data.score) || 0)),
     opinion:
   typeof data.opinion === "string" && data.opinion.trim().length > 0
     ? data.opinion.trim()
@@ -94,6 +94,31 @@ return normalized;
   }
 }
 
+async function runChat(systemPrompt, userPrompt) {
+  const response = await axios.post(
+    `${OLLAMA_BASE_URL}/api/generate`,
+    {
+      model: OLLAMA_MODEL,
+      stream: false,
+      prompt: `
+${systemPrompt}
+
+${userPrompt}
+      `,
+      options: {
+        temperature: 0.7,
+      },
+    },
+    {
+      timeout: 120000,
+    }
+  );
+
+  return response.data.response.trim();
+}
+
 module.exports = {
   runAgent,
+  runChat,
 };
+

@@ -2,7 +2,7 @@ const Chat = require("../models/Chat");
 const Project = require("../models/Project");
 const Analysis = require("../models/Analysis");
 const Boardroom = require("../models/Boardroom");
-const { runAgent } = require("../agents/baseAgent");
+const { runChat } = require("../agents/baseAgent");
 
 async function askCopilot(projectId, userId, question) {
 
@@ -46,20 +46,25 @@ async function askCopilot(projectId, userId, question) {
         .join("\n");
 
     const systemPrompt = `
-You are an AI Startup Copilot.
+You are AI Startup Copilot.
 
-Help the founder build a successful startup.
+You are an experienced startup founder, investor, product manager,
+and business strategist.
 
-Use the project details,
-startup validation,
-boardroom discussion,
-and previous conversation.
+Use the project details, startup validation report,
+boardroom discussion, and previous conversation.
 
-Answer like an experienced startup mentor.
+Answer naturally like ChatGPT.
 
-Keep answers practical.
+Give actionable advice.
 
-Never invent information.
+Use bullet points whenever useful.
+
+Do NOT return JSON.
+
+Do NOT act like the CEO, CTO, CFO, CMO, or Investor.
+
+Simply answer the user's question as an AI startup mentor.
 `;
 
     const userPrompt = `
@@ -94,17 +99,10 @@ USER QUESTION
 ${question}
 `;
 
-    const ai = await runAgent(
-        systemPrompt,
-        userPrompt
-    );
-
-    const answer =
-        ai.answer ||
-        ai.response ||
-        ai.opinion ||
-        JSON.stringify(ai);
-
+    const answer = await runChat(
+    systemPrompt,
+    userPrompt
+);
     chat.messages.push({
         role: "user",
         content: question
