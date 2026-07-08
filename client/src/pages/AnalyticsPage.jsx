@@ -112,30 +112,34 @@ export default function AnalyticsPage() {
           executives={analytics.executiveScores}
         />
 
-        <AnalyticsSection
-          title="Strengths"
-          items={analytics.strengths}
-        />
+        <div className="analytics-sections-grid">
 
-        <AnalyticsSection
-          title="Weaknesses"
-          items={analytics.weaknesses}
-        />
+  <AnalyticsSection
+    title="Strengths"
+    items={analytics.strengths}
+  />
 
-        <AnalyticsSection
-          title="Risks"
-          items={analytics.risks}
-        />
+  <AnalyticsSection
+    title="Weaknesses"
+    items={analytics.weaknesses}
+  />
 
-        <AnalyticsSection
-          title="Revenue Model"
-          text={analytics.revenueModel}
-        />
+  <AnalyticsSection
+    title="Risks"
+    items={analytics.risks}
+  />
 
-        <AnalyticsSection
-          title="Suggested MVP"
-          text={analytics.suggestedMvp}
-        />
+  <AnalyticsSection
+    title="Revenue Model"
+    text={analytics.revenueModel}
+  />
+
+</div>
+
+<AnalyticsSection
+  title="Suggested MVP"
+  text={analytics.suggestedMvp}
+/>
 
       </main>
     </div>
