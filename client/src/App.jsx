@@ -89,6 +89,14 @@ export default function App() {
   }
 />
 
+<Route
+  path="/analytics/:projectId"
+  element={
+    <ProtectedRoute>
+      <AnalyticsPage />
+    </ProtectedRoute>
+  }
+/>
         <Route path="/projects" element={<Navigate to="/dashboard" replace />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>

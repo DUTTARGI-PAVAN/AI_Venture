@@ -1,120 +1,142 @@
-import { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import AnalyticsCards from "../components/analytics/AnalyticsCards";
-import AnalyticsCharts from "../components/analytics/AnalyticsCharts";
-import AnalyticsOverview from "../components/analytics/AnalyticsOverview";
-import InsightsPanel from "../components/analytics/InsightsPanel";
-import RecommendationsPanel from "../components/analytics/RecommendationsPanel";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
 import SidebarNavigation from "../components/layout/SidebarNavigation";
 import TopNavbar from "../components/layout/TopNavbar";
-import EmptyState from "../components/ui/EmptyState";
-import ErrorMessage from "../components/ui/ErrorMessage";
+
+import AnalyticsHero from "../components/analytics/AnalyticsHero";
+import ScoreCard from "../components/analytics/ScoreCard";
+import ExecutiveScoreCard from "../components/analytics/ExecutiveScoreCard";
+import AnalyticsSection from "../components/analytics/AnalyticsSection";
+
 import LoadingSpinner from "../components/ui/LoadingSpinner";
-import { fetchAnalytics } from "../services/analyticsService";
+import ErrorMessage from "../components/ui/ErrorMessage";
+
+import api from "../services/api";
 import useStudioStore from "../store/useStudioStore";
-
+import "../styles/analytics.css";
 export default function AnalyticsPage() {
+  const { projectId } = useParams();
   const navigate = useNavigate();
+
   const { user, logout } = useStudioStore();
+
   const [analytics, setAnalytics] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
-  const loadAnalytics = useCallback(async () => {
-    setIsLoading(true);
-    setError("");
-
-    try {
-      const data = await fetchAnalytics();
-      setAnalytics(data);
-    } catch (err) {
-      setError(
-        err?.response?.data?.message ||
-          "Unable to load analytics. Please try again."
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
 
   useEffect(() => {
     loadAnalytics();
-  }, [loadAnalytics]);
+  }, [projectId]);
+
+  async function loadAnalytics() {
+    try {
+      setLoading(true);
+
+      const { data } = await api.get(`/analytics/${projectId}`);
+
+      setAnalytics(data.analytics);
+    } catch (err) {
+      setError(
+        err?.response?.data?.message ||
+          "Failed to load analytics."
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
 
   const handleLogout = () => {
     logout();
-    navigate("/auth", { replace: true });
+    navigate("/auth");
   };
 
-  const hasProjects = (analytics?.overview?.totalProjects || 0) > 0;
-  const hasAnalyses = (analytics?.overview?.projectsAnalyzed || 0) > 0;
+  if (loading) {
+    return (
+      <div className="app-shell">
+        <SidebarNavigation />
+        <main className="main-content">
+          <LoadingSpinner label="Loading Analytics..." />
+        </main>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="app-shell">
+        <SidebarNavigation />
+        <main className="main-content">
+          <ErrorMessage
+            message={error}
+            onRetry={loadAnalytics}
+          />
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="app-shell">
       <SidebarNavigation />
 
       <main className="main-content">
-        <div className="content-stack">
-          <TopNavbar user={user} onLogout={handleLogout} />
 
-          <section className="topbar">
-            <div>
-              <p className="eyebrow">Analytics</p>
-              <h1 className="topbar__title">Startup portfolio intelligence</h1>
-              <p className="page-intro">
-                Track AI validation quality, portfolio coverage, project readiness,
-                and repeated risk patterns across your venture studio.
-              </p>
-            </div>
-          </section>
+        <TopNavbar
+          user={user}
+          onLogout={handleLogout}
+        />
 
-          {error ? <ErrorMessage message={error} onRetry={loadAnalytics} /> : null}
+        <AnalyticsHero project={analytics.project} />
 
-          {isLoading ? (
-            <section className="panel">
-              <LoadingSpinner label="Loading analytics..." />
-            </section>
-          ) : analytics && hasProjects ? (
-            <>
-              <AnalyticsCards overview={analytics.overview} />
+        <div className="analytics-score-grid">
 
-              {!hasAnalyses ? (
-                <section className="panel">
-                  <EmptyState
-                    title="No AI analysis yet"
-                    message="Validate at least one project idea to unlock score trends, insights, and recommendations."
-                    actionLabel="Go to Dashboard"
-                    onAction={() => navigate("/dashboard")}
-                  />
-                </section>
-              ) : null}
+          <ScoreCard
+            title="AI Score"
+            score={analytics.aiScore}
+          />
 
-              <AnalyticsOverview
-                overview={analytics.overview}
-                highestProject={analytics.highlights.highestProject}
-                lowestProject={analytics.highlights.lowestProject}
-              />
+          <ScoreCard
+            title="Boardroom Score"
+            score={analytics.boardroomScore}
+          />
 
-              <AnalyticsCharts charts={analytics.charts} />
+          <ScoreCard
+            title="Final Decision"
+            value={analytics.finalDecision}
+          />
 
-              <InsightsPanel
-                insights={analytics.insights}
-                recentlyAnalyzed={analytics.highlights.recentlyAnalyzed}
-              />
-
-              <RecommendationsPanel recommendations={analytics.recommendations} />
-            </>
-          ) : (
-            <section className="panel">
-              <EmptyState
-                title="No project analytics yet"
-                message="Create your first project to begin building analytics for your startup portfolio."
-                actionLabel="Go to Dashboard"
-                onAction={() => navigate("/dashboard")}
-              />
-            </section>
-          )}
         </div>
+
+        <ExecutiveScoreCard
+          executives={analytics.executiveScores}
+        />
+
+        <AnalyticsSection
+          title="Strengths"
+          items={analytics.strengths}
+        />
+
+        <AnalyticsSection
+          title="Weaknesses"
+          items={analytics.weaknesses}
+        />
+
+        <AnalyticsSection
+          title="Risks"
+          items={analytics.risks}
+        />
+
+        <AnalyticsSection
+          title="Revenue Model"
+          text={analytics.revenueModel}
+        />
+
+        <AnalyticsSection
+          title="Suggested MVP"
+          text={analytics.suggestedMvp}
+        />
+
       </main>
     </div>
   );

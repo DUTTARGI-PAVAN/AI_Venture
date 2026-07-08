@@ -202,6 +202,12 @@ export default function ProjectPage() {
   🤖 AI Copilot
 </button>
 
+                   <button
+  className="btn btn--secondary"
+  onClick={() => navigate(`/analytics/${id}`)}
+>
+  📊 Analytics
+</button>
                     <button
                       type="button"
                       className="btn btn--primary"
@@ -211,6 +217,7 @@ export default function ProjectPage() {
                       <Sparkles size={18} aria-hidden="true" />
                       Validate Idea
                     </button>
+ 
                   </div>
                 </div>
 

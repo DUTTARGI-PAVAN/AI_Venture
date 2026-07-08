@@ -22,6 +22,7 @@ app.use("/api/ai", aiRoutes);
 app.use("/api/analytics", analyticsRoutes);
 app.use("/api/boardroom", boardroomRoutes);
 app.use("/api/copilot", copilotRoutes);
+
 app.get("/api/health", (req, res) => {
     res.status(200).json({
         ok: true,

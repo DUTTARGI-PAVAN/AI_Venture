@@ -1,8 +1,11 @@
-const analyticsService = require("../services/analyticsService");
+const { getAnalytics } = require("../services/analyticsService");
 
 exports.getAnalytics = async (req, res) => {
   try {
-    const analytics = await analyticsService.getAnalytics(req.user.id);
+    const analytics = await getAnalytics(
+      req.params.projectId,
+      req.user.id
+    );
 
     res.json({
       success: true,
@@ -13,7 +16,7 @@ exports.getAnalytics = async (req, res) => {
 
     res.status(500).json({
       success: false,
-      message: "Unable to load analytics. Please try again.",
+      message: err.message,
     });
   }
 };
