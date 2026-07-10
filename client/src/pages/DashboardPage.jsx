@@ -154,11 +154,28 @@ export default function DashboardPage() {
             onLogout={handleLogout}
           />
 
-          <p className="page-intro">
-            Manage every venture workspace from one focused dashboard. Create,
-            review, and organize your startup projects as they move from idea
-            to execution.
-          </p>
+          <section className="dashboard-hero panel">
+  <div>
+    <p className="eyebrow">AI VENTURE STUDIO</p>
+
+    <h1 className="dashboard-title">
+      Welcome back, {user?.name || "Founder"} 👋
+    </h1>
+
+    <p className="dashboard-description">
+      Build, validate, and evaluate startup ideas using AI-powered
+      validation, executive boardroom discussions, analytics, and an
+      intelligent startup copilot.
+    </p>
+  </div>
+
+  <button
+    className="btn btn--primary dashboard-create-btn"
+    onClick={openCreateModal}
+  >
+    + New Project
+  </button>
+</section>
 
           <DashboardStats projects={projects} />
 
@@ -167,11 +184,16 @@ export default function DashboardPage() {
           <section className="panel">
             <div className="panel__header">
               <div>
-                <h2 className="panel__title">Projects</h2>
-                <p className="panel__meta">
-                  {projects.length} active{" "}
-                  {projects.length === 1 ? "workspace" : "workspaces"}
-                </p>
+                <div>
+  <h2 className="panel__title">
+    Your Startup Portfolio
+  </h2>
+
+  <p className="panel__meta">
+    {projects.length} active{" "}
+    {projects.length === 1 ? "project" : "projects"}
+  </p>
+</div>
               </div>
             </div>
 

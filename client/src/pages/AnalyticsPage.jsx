@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
+import { exportAnalyticsPDF } from "../services/pdfService";
 import SidebarNavigation from "../components/layout/SidebarNavigation";
 import TopNavbar from "../components/layout/TopNavbar";
 
@@ -17,6 +17,7 @@ import useStudioStore from "../store/useStudioStore";
 import "../styles/analytics.css";
 export default function AnalyticsPage() {
   const { projectId } = useParams();
+  console.log("Analytics projectId:", projectId);
   const navigate = useNavigate();
 
   const { user, logout } = useStudioStore();
@@ -26,10 +27,16 @@ export default function AnalyticsPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    loadAnalytics();
-  }, [projectId]);
+  if (!projectId) {
+    navigate("/dashboard");
+    return;
+  }
+
+  loadAnalytics();
+}, [projectId, navigate]);
 
   async function loadAnalytics() {
+    console.log("Loading analytics for:", projectId); 
     try {
       setLoading(true);
 
@@ -75,7 +82,7 @@ export default function AnalyticsPage() {
       </div>
     );
   }
-
+  console.log(analytics);
   return (
     <div className="app-shell">
       <SidebarNavigation />
@@ -83,11 +90,29 @@ export default function AnalyticsPage() {
       <main className="main-content">
 
         <TopNavbar
-          user={user}
-          onLogout={handleLogout}
-        />
+  user={user}
+  onLogout={handleLogout}
+/>
 
-        <AnalyticsHero project={analytics.project} />
+<div
+  style={{
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: "20px",
+    gap: "20px",
+    flexWrap: "wrap",
+  }}
+>
+  <AnalyticsHero project={analytics.project} />
+
+  <button
+    className="btn btn--primary"
+    onClick={() => exportAnalyticsPDF(analytics)}
+  >
+    📄 Export PDF
+  </button>
+</div>
 
         <div className="analytics-score-grid">
 
@@ -112,34 +137,30 @@ export default function AnalyticsPage() {
           executives={analytics.executiveScores}
         />
 
-        <div className="analytics-sections-grid">
+        <AnalyticsSection
+          title="Strengths"
+          items={analytics.strengths}
+        />
 
-  <AnalyticsSection
-    title="Strengths"
-    items={analytics.strengths}
-  />
+        <AnalyticsSection
+          title="Weaknesses"
+          items={analytics.weaknesses}
+        />
 
-  <AnalyticsSection
-    title="Weaknesses"
-    items={analytics.weaknesses}
-  />
+        <AnalyticsSection
+          title="Risks"
+          items={analytics.risks}
+        />
 
-  <AnalyticsSection
-    title="Risks"
-    items={analytics.risks}
-  />
+        <AnalyticsSection
+          title="Revenue Model"
+          text={analytics.revenueModel}
+        />
 
-  <AnalyticsSection
-    title="Revenue Model"
-    text={analytics.revenueModel}
-  />
-
-</div>
-
-<AnalyticsSection
-  title="Suggested MVP"
-  text={analytics.suggestedMvp}
-/>
+        <AnalyticsSection
+          title="Suggested MVP"
+          text={analytics.suggestedMvp}
+        />
 
       </main>
     </div>

@@ -23,37 +23,59 @@ async function getAnalytics(projectId, userId) {
   }).sort({ createdAt: -1 });
 
   return {
-    project: {
-      title: project.title,
-      description: project.description,
-      industry: project.industry,
-      stage: project.stage,
-    },
+  project: {
+    title: project.title,
+    description: project.description,
+    industry: project.industry,
+    stage: project.stage,
+  },
 
-    aiScore: analysis?.aiScore || 0,
+  // AI Validation
+  aiScore: analysis?.aiScore || 0,
+  validationSummary:
+    analysis?.summary ||
+    analysis?.rawResponse ||
+    "No validation summary available.",
 
-    boardroomScore: boardroom?.averageScore || 0,
+  // Boardroom
+  boardroomScore: boardroom?.averageScore || 0,
+  finalDecision: boardroom?.finalDecision || "Not Generated",
 
-    finalDecision: boardroom?.finalDecision || "Not Generated",
+  executiveScores:
+    boardroom?.agents?.map((agent) => ({
+      role: agent.role,
+      score: agent.score,
+    })) || [],
 
-    executiveScores:
-      boardroom?.agents.map((agent) => ({
-        role: agent.role,
-        score: agent.score,
-      })) || [],
+  executiveOpinions:
+    boardroom?.agents?.map((agent) => ({
+      role: agent.role,
+      opinion: agent.opinion,
+      strengths: agent.strengths,
+      concerns: agent.concerns,
+      recommendations: agent.recommendations,
+    })) || [],
 
-    strengths: analysis?.strengths || [],
+  boardroomConsensus:
+    boardroom?.consensus ||
+    "Boardroom discussion has not been generated.",
 
-    weaknesses: analysis?.weaknesses || [],
+  // Analysis
+  strengths: analysis?.strengths || [],
+  weaknesses: analysis?.weaknesses || [],
+  risks: analysis?.risks || [],
 
-    risks: analysis?.risks || [],
+  revenueModel:
+    analysis?.revenueModel || "Not Available",
 
-    revenueModel:
-      analysis?.revenueModel || "Not Available",
+  suggestedMvp:
+    analysis?.suggestedMvp || "Not Available",
 
-    suggestedMvp:
-      analysis?.suggestedMvp || "Not Available",
-  };
+  overallRecommendation:
+    boardroom?.finalDecision === "INVEST"
+      ? "Proceed with MVP development and customer validation."
+      : "Improve the business model and address the highlighted concerns before moving forward.",
+};
 }
 
 module.exports = {

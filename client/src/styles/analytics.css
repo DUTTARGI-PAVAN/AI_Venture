@@ -134,3 +134,22 @@
 
 }
 
+.analytics-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:20px;
+    margin-bottom:24px;
+}
+
+.analytics-header .analytics-hero{
+    flex:1;
+}
+
+@media(max-width:900px){
+
+    .analytics-header{
+        flex-direction:column;
+    }
+
+}

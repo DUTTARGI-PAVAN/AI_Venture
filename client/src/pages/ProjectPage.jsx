@@ -9,7 +9,7 @@ import LoadingSpinner from "../components/ui/LoadingSpinner";
 import { getLatestAnalysis, validateIdea } from "../services/analysisApi";
 import api from "../services/api";
 import useStudioStore from "../store/useStudioStore";
-
+import "../styles/project.css";
 function formatDate(value) {
   if (!value) return "Not available";
 
@@ -21,6 +21,7 @@ function formatDate(value) {
 
 export default function ProjectPage() {
   const { id } = useParams();
+  console.log("Project id:", id);
   const navigate = useNavigate();
   const {
     user,
@@ -137,38 +138,42 @@ export default function ProjectPage() {
             </section>
           ) : selectedProject ? (
             <>
-              <section className="detail-grid">
-                <article className="detail-card">
-                  <p className="eyebrow">Project Details</p>
-                  <h2>{selectedProject.title || "Untitled Project"}</h2>
-                  <p>
-                    {selectedProject.description ||
-                      "No description has been added for this project yet."}
-                  </p>
-                </article>
+              <section className="panel project-hero">
 
-                <aside className="detail-card">
-                  <h3>Workspace Info</h3>
-                  <dl className="detail-list">
-                    <div>
-                      <dt>Industry</dt>
-                      <dd>{selectedProject.industry || "Not specified"}</dd>
-                    </div>
-                    <div>
-                      <dt>Stage</dt>
-                      <dd>{selectedProject.stage || "Idea"}</dd>
-                    </div>
-                    <div>
-                      <dt>Created</dt>
-                      <dd>{formatDate(selectedProject.createdAt)}</dd>
-                    </div>
-                    <div>
-                      <dt>Updated</dt>
-                      <dd>{formatDate(selectedProject.updatedAt)}</dd>
-                    </div>
-                  </dl>
-                </aside>
-              </section>
+  <div className="project-hero-left">
+
+    <p className="eyebrow">
+      AI VENTURE PROJECT
+    </p>
+
+    <h1>{selectedProject.title}</h1>
+
+    <p className="project-description">
+      {selectedProject.description}
+    </p>
+
+    <div className="project-tags">
+      <span>{selectedProject.industry}</span>
+      <span>{selectedProject.stage}</span>
+    </div>
+
+  </div>
+
+  <div className="project-info">
+
+    <div>
+      <small>Created</small>
+      <strong>{formatDate(selectedProject.createdAt)}</strong>
+    </div>
+
+    <div>
+      <small>Updated</small>
+      <strong>{formatDate(selectedProject.updatedAt)}</strong>
+    </div>
+
+  </div>
+
+</section>
 
               <section className="panel">
                 <div className="panel__header">
@@ -182,45 +187,45 @@ export default function ProjectPage() {
                     </p>
                   </div>
 
-                  <div className="topbar__actions">
-                    {analysis ? (
-                      <button
-                        type="button"
-                        className="btn btn--secondary"
-                        disabled={isAnalysisLoading}
-                        onClick={() => handleValidateIdea(true)}
-                      >
-                        <RefreshCw size={18} aria-hidden="true" />
-                        Regenerate
-                      </button>
-                    ) : null}
+                  <div className="project-actions">
 
-                    <button
-  className="btn btn--primary"
-  onClick={() => navigate(`/copilot/${id}`)}
+<button
+className="btn btn--primary"
+onClick={()=>handleValidateIdea(false)}
 >
-  🤖 AI Copilot
+✨ Validate
 </button>
 
-                   <button
-  className="btn btn--secondary"
-  onClick={() => navigate(`/analytics/${id}`)}
+<button
+className="btn btn--secondary"
+onClick={()=>navigate(`/boardroom/${id}`)}
 >
-  📊 Analytics
+👔 Boardroom
 </button>
-                    <button
-                      type="button"
-                      className="btn btn--primary"
-                      disabled={isAnalysisLoading}
-                      onClick={() => handleValidateIdea(false)}
-                    >
-                      <Sparkles size={18} aria-hidden="true" />
-                      Validate Idea
-                    </button>
- 
-                  </div>
-                </div>
 
+<button
+className="btn btn--secondary"
+onClick={()=>navigate(`/copilot/${id}`)}
+>
+🤖 Copilot
+</button>
+
+<button
+className="btn btn--secondary"
+onClick={()=>navigate(`/analytics/${id}`)}
+>
+📊 Analytics
+</button>
+
+<button
+className="btn btn--secondary"
+onClick={()=>handleValidateIdea(true)}
+>
+🔄 Regenerate
+</button>
+
+</div>
+</div>
                 
 
                 {analysisError ? (
@@ -237,48 +242,48 @@ export default function ProjectPage() {
                 ) : analysis ? (
                   <div className="analysis-report">
                     <div className="analysis-score">
-                      <Brain size={24} aria-hidden="true" />
-                      <div>
-                        <span>{analysis.aiScore}</span>
-                        <p>AI Score</p>
-                      </div>
+                      <h1>{analysis.aiScore}</h1>
+                      <p>AI Startup Score</p>
                     </div>
-
-                    <AnalysisSection
-                      title="Startup Summary"
-                      content={analysis.startupSummary}
-                    />
-                    <AnalysisSection
-                      title="Problem Statement"
-                      content={analysis.problemStatement}
-                    />
-                    <AnalysisSection
-                      title="Target Audience"
-                      content={analysis.targetAudience}
-                    />
-                    <AnalysisSection
-                      title="Market Opportunity"
-                      content={analysis.marketOpportunity}
-                    />
-                    <AnalysisSection
-                      title="Competitor Analysis"
-                      content={analysis.competitorAnalysis}
-                    />
-                    <AnalysisList title="Strengths" items={analysis.strengths} />
-                    <AnalysisList
-                      title="Weaknesses"
-                      items={analysis.weaknesses}
-                    />
-                    <AnalysisList title="Risks" items={analysis.risks} />
-                    <AnalysisSection
-                      title="Suggested MVP"
-                      content={analysis.suggestedMvp}
-                    />
-                    <AnalysisSection
-                      title="Revenue Model"
-                      content={analysis.revenueModel}
-                    />
+                  
+                    <div className="analysis-grid">
+                      <AnalysisSection
+                        title="Startup Summary"
+                        content={analysis.startupSummary}
+                      />
+                      <AnalysisSection
+                        title="Problem Statement"
+                        content={analysis.problemStatement}
+                      />
+                      <AnalysisSection
+                        title="Target Audience"
+                        content={analysis.targetAudience}
+                      />
+                      <AnalysisSection
+                        title="Market Opportunity"
+                        content={analysis.marketOpportunity}
+                      />
+                      <AnalysisSection
+                        title="Competitor Analysis"
+                        content={analysis.competitorAnalysis}
+                      />
+                      <AnalysisList title="Strengths" items={analysis.strengths} />
+                      <AnalysisList
+                        title="Weaknesses"
+                        items={analysis.weaknesses}
+                      />
+                      <AnalysisList title="Risks" items={analysis.risks} />
+                      <AnalysisSection
+                        title="Suggested MVP"
+                        content={analysis.suggestedMvp}
+                      />
+                      <AnalysisSection
+                        title="Revenue Model"
+                        content={analysis.revenueModel}
+                      />
+                    </div>
                   </div>
+                 
                 ) : (
                   <EmptyState
                     title="No AI validation yet"
@@ -321,7 +326,7 @@ function AnalysisList({ title, items = [] }) {
       {items.length ? (
         <ul>
           {items.map((item) => (
-            <li key={item}>{item}</li>
+            <li>✅ {item}</li>
           ))}
         </ul>
       ) : (
