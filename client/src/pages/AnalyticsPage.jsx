@@ -27,16 +27,16 @@ export default function AnalyticsPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-  if (!projectId) {
-    navigate("/dashboard");
-    return;
-  }
+    if (!projectId) {
+      navigate("/dashboard");
+      return;
+    }
 
-  loadAnalytics();
-}, [projectId, navigate]);
+    loadAnalytics();
+  }, [projectId, navigate]);
 
   async function loadAnalytics() {
-    console.log("Loading analytics for:", projectId); 
+    console.log("Loading analytics for:", projectId);
     try {
       setLoading(true);
 
@@ -46,7 +46,7 @@ export default function AnalyticsPage() {
     } catch (err) {
       setError(
         err?.response?.data?.message ||
-          "Failed to load analytics."
+        "Failed to load analytics."
       );
     } finally {
       setLoading(false);
@@ -90,29 +90,29 @@ export default function AnalyticsPage() {
       <main className="main-content">
 
         <TopNavbar
-  user={user}
-  onLogout={handleLogout}
-/>
+          user={user}
+          onLogout={handleLogout}
+        />
 
-<div
-  style={{
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: "20px",
-    gap: "20px",
-    flexWrap: "wrap",
-  }}
->
-  <AnalyticsHero project={analytics.project} />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "20px",
+            gap: "20px",
+            flexWrap: "wrap",
+          }}
+        >
+          <AnalyticsHero project={analytics.project} />
 
-  <button
-    className="btn btn--primary"
-    onClick={() => exportAnalyticsPDF(analytics)}
-  >
-    📄 Export PDF
-  </button>
-</div>
+          <button
+            className="btn btn--primary"
+            onClick={() => exportAnalyticsPDF(analytics)}
+          >
+            📄 Export PDF
+          </button>
+        </div>
 
         <div className="analytics-score-grid">
 

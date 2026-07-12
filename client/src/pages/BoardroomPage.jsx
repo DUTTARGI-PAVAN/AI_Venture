@@ -55,7 +55,7 @@ export default function BoardroomPage() {
     } catch (err) {
       setError(
         err?.response?.data?.message ||
-          "Unable to generate boardroom discussion."
+        "Unable to generate boardroom discussion."
       );
     } finally {
       setRunning(false);
@@ -93,21 +93,21 @@ export default function BoardroomPage() {
 
           <div>
 
-  <p className="eyebrow">
-    AI Executive Meeting
-  </p>
+            <p className="eyebrow">
+              AI Executive Meeting
+            </p>
 
-  <h1 className="topbar__title">
-    🧠 AI Boardroom
-  </h1>
+            <h1 className="topbar__title">
+              🧠 AI Boardroom
+            </h1>
 
-  <p className="page-intro">
-    Five AI executives independently evaluated your startup,
-    discussed its strengths and risks, and reached a collective
-    investment recommendation.
-  </p>
+            <p className="page-intro">
+              Five AI executives independently evaluated your startup,
+              discussed its strengths and risks, and reached a collective
+              investment recommendation.
+            </p>
 
-</div>
+          </div>
 
           {!boardroom && (
 

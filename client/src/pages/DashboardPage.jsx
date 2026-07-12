@@ -32,7 +32,7 @@ export default function DashboardPage() {
     } catch (err) {
       setError(
         err?.response?.data?.message ||
-          "Unable to load projects. Please try again."
+        "Unable to load projects. Please try again."
       );
     } finally {
       setIsLoading(false);
@@ -99,7 +99,7 @@ export default function DashboardPage() {
     } catch (err) {
       setModalError(
         err?.response?.data?.message ||
-          "Unable to save project. Please try again."
+        "Unable to save project. Please try again."
       );
     } finally {
       setIsSaving(false);
@@ -123,7 +123,7 @@ export default function DashboardPage() {
     } catch (err) {
       setError(
         err?.response?.data?.message ||
-          "Unable to delete project. Please try again."
+        "Unable to delete project. Please try again."
       );
     }
   };
@@ -134,8 +134,8 @@ export default function DashboardPage() {
   };
 
   const handleBoardroom = (projectId) => {
-  navigate(`/boardroom/${projectId}`);
-};
+    navigate(`/boardroom/${projectId}`);
+  };
 
   const handleLogout = () => {
     logout();
@@ -155,27 +155,27 @@ export default function DashboardPage() {
           />
 
           <section className="dashboard-hero panel">
-  <div>
-    <p className="eyebrow">AI VENTURE STUDIO</p>
+            <div>
+              <p className="eyebrow">AI VENTURE STUDIO</p>
 
-    <h1 className="dashboard-title">
-      Welcome back, {user?.name || "Founder"} 👋
-    </h1>
+              <h1 className="dashboard-title">
+                Welcome back, {user?.name || "Founder"} 👋
+              </h1>
 
-    <p className="dashboard-description">
-      Build, validate, and evaluate startup ideas using AI-powered
-      validation, executive boardroom discussions, analytics, and an
-      intelligent startup copilot.
-    </p>
-  </div>
+              <p className="dashboard-description">
+                Build, validate, and evaluate startup ideas using AI-powered
+                validation, executive boardroom discussions, analytics, and an
+                intelligent startup copilot.
+              </p>
+            </div>
 
-  <button
-    className="btn btn--primary dashboard-create-btn"
-    onClick={openCreateModal}
-  >
-    + New Project
-  </button>
-</section>
+            <button
+              className="btn btn--primary dashboard-create-btn"
+              onClick={openCreateModal}
+            >
+              + New Project
+            </button>
+          </section>
 
           <DashboardStats projects={projects} />
 
@@ -185,15 +185,15 @@ export default function DashboardPage() {
             <div className="panel__header">
               <div>
                 <div>
-  <h2 className="panel__title">
-    Your Startup Portfolio
-  </h2>
+                  <h2 className="panel__title">
+                    Your Startup Portfolio
+                  </h2>
 
-  <p className="panel__meta">
-    {projects.length} active{" "}
-    {projects.length === 1 ? "project" : "projects"}
-  </p>
-</div>
+                  <p className="panel__meta">
+                    {projects.length} active{" "}
+                    {projects.length === 1 ? "project" : "projects"}
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -202,15 +202,15 @@ export default function DashboardPage() {
             ) : projects.length > 0 ? (
               <div className="project-grid">
                 {projects.map((project) => (
-  <ProjectCard
-    key={project._id}
-    project={project}
-    onOpen={handleOpenProject}
-    onEdit={openEditModal}
-    onDelete={handleDeleteProject}
-    onBoardroom={handleBoardroom}
-  />
-))}
+                  <ProjectCard
+                    key={project._id}
+                    project={project}
+                    onOpen={handleOpenProject}
+                    onEdit={openEditModal}
+                    onDelete={handleDeleteProject}
+                    onBoardroom={handleBoardroom}
+                  />
+                ))}
               </div>
             ) : (
               <EmptyState

@@ -54,22 +54,22 @@ export default function CopilotPage() {
   }
 
   async function handleSend(question) {
-  console.log("Question:", question);
+    console.log("Question:", question);
 
-  setLoading(true);
+    setLoading(true);
 
-  try {
-    const data = await sendMessage(projectId, question);
+    try {
+      const data = await sendMessage(projectId, question);
 
-    console.log(data);
+      console.log(data);
 
-    setMessages(data.messages);
-  } catch (err) {
-    console.error(err);
-  } finally {
-    setLoading(false);
+      setMessages(data.messages);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   }
-}
 
   return (
     <div className="app-shell">

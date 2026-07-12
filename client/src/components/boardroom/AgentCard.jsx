@@ -37,9 +37,9 @@ const roleConfig = {
 export default function AgentCard({ agent }) {
   const config = roleConfig[agent.role];
 
-const color = config?.color || "#2563eb";
+  const color = config?.color || "#2563eb";
 
-const Icon = config?.icon || Briefcase;
+  const Icon = config?.icon || Briefcase;
 
   return (
     <article className="panel boardroom-card">
@@ -47,11 +47,11 @@ const Icon = config?.icon || Briefcase;
       <div className="boardroom-card__header">
 
         <div
-  className="boardroom-avatar"
-  style={{ background: color }}
->
-  <Icon size={20} color="white" />
-</div>
+          className="boardroom-avatar"
+          style={{ background: color }}
+        >
+          <Icon size={20} color="white" />
+        </div>
 
         <div>
 
@@ -78,9 +78,9 @@ const Icon = config?.icon || Briefcase;
       <div className="boardroom-section boardroom-strengths">
 
         <h3>
-  <CheckCircle2 size={16}/>
-  Strengths
-</h3>
+          <CheckCircle2 size={16} />
+          Strengths
+        </h3>
 
         <ul>
 
@@ -99,9 +99,9 @@ const Icon = config?.icon || Briefcase;
       <div className="boardroom-section boardroom-concerns">
 
         <h3>
-  <AlertTriangle size={16}/>
-  Concerns
-</h3>
+          <AlertTriangle size={16} />
+          Concerns
+        </h3>
 
         <ul>
 
@@ -120,9 +120,9 @@ const Icon = config?.icon || Briefcase;
       <div className="boardroom-section boardroom-recommendations">
 
         <h3>
-  <Lightbulb size={16}/>
-  Recommendations
-</h3>
+          <Lightbulb size={16} />
+          Recommendations
+        </h3>
 
         <ul>
 

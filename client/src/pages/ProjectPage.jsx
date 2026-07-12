@@ -53,7 +53,7 @@ export default function ProjectPage() {
       setSelectedProject(null);
       setError(
         err?.response?.data?.message ||
-          "Unable to load project details. Please try again."
+        "Unable to load project details. Please try again."
       );
     } finally {
       setIsLoading(false);
@@ -72,7 +72,7 @@ export default function ProjectPage() {
     } catch (err) {
       setAnalysisError(
         err?.response?.data?.message ||
-          "Unable to load the previous AI analysis."
+        "Unable to load the previous AI analysis."
       );
     }
   }, [analysesByProject, id, setProjectAnalysis]);
@@ -101,7 +101,7 @@ export default function ProjectPage() {
     } catch (err) {
       setAnalysisError(
         err?.response?.data?.message ||
-          "Unable to generate the AI validation report. Please make sure Ollama is running."
+        "Unable to generate the AI validation report. Please make sure Ollama is running."
       );
     } finally {
       setIsAnalysisLoading(false);
@@ -140,40 +140,40 @@ export default function ProjectPage() {
             <>
               <section className="panel project-hero">
 
-  <div className="project-hero-left">
+                <div className="project-hero-left">
 
-    <p className="eyebrow">
-      AI VENTURE PROJECT
-    </p>
+                  <p className="eyebrow">
+                    AI VENTURE PROJECT
+                  </p>
 
-    <h1>{selectedProject.title}</h1>
+                  <h1>{selectedProject.title}</h1>
 
-    <p className="project-description">
-      {selectedProject.description}
-    </p>
+                  <p className="project-description">
+                    {selectedProject.description}
+                  </p>
 
-    <div className="project-tags">
-      <span>{selectedProject.industry}</span>
-      <span>{selectedProject.stage}</span>
-    </div>
+                  <div className="project-tags">
+                    <span>{selectedProject.industry}</span>
+                    <span>{selectedProject.stage}</span>
+                  </div>
 
-  </div>
+                </div>
 
-  <div className="project-info">
+                <div className="project-info">
 
-    <div>
-      <small>Created</small>
-      <strong>{formatDate(selectedProject.createdAt)}</strong>
-    </div>
+                  <div>
+                    <small>Created</small>
+                    <strong>{formatDate(selectedProject.createdAt)}</strong>
+                  </div>
 
-    <div>
-      <small>Updated</small>
-      <strong>{formatDate(selectedProject.updatedAt)}</strong>
-    </div>
+                  <div>
+                    <small>Updated</small>
+                    <strong>{formatDate(selectedProject.updatedAt)}</strong>
+                  </div>
 
-  </div>
+                </div>
 
-</section>
+              </section>
 
               <section className="panel">
                 <div className="panel__header">
@@ -189,44 +189,44 @@ export default function ProjectPage() {
 
                   <div className="project-actions">
 
-<button
-className="btn btn--primary"
-onClick={()=>handleValidateIdea(false)}
->
-✨ Validate
-</button>
+                    <button
+                      className="btn btn--primary"
+                      onClick={() => handleValidateIdea(false)}
+                    >
+                      ✨ Validate
+                    </button>
 
-<button
-className="btn btn--secondary"
-onClick={()=>navigate(`/boardroom/${id}`)}
->
-👔 Boardroom
-</button>
+                    <button
+                      className="btn btn--secondary"
+                      onClick={() => navigate(`/boardroom/${id}`)}
+                    >
+                      👔 Boardroom
+                    </button>
 
-<button
-className="btn btn--secondary"
-onClick={()=>navigate(`/copilot/${id}`)}
->
-🤖 Copilot
-</button>
+                    <button
+                      className="btn btn--secondary"
+                      onClick={() => navigate(`/copilot/${id}`)}
+                    >
+                      🤖 Copilot
+                    </button>
 
-<button
-className="btn btn--secondary"
-onClick={()=>navigate(`/analytics/${id}`)}
->
-📊 Analytics
-</button>
+                    <button
+                      className="btn btn--secondary"
+                      onClick={() => navigate(`/analytics/${id}`)}
+                    >
+                      📊 Analytics
+                    </button>
 
-<button
-className="btn btn--secondary"
-onClick={()=>handleValidateIdea(true)}
->
-🔄 Regenerate
-</button>
+                    <button
+                      className="btn btn--secondary"
+                      onClick={() => handleValidateIdea(true)}
+                    >
+                      🔄 Regenerate
+                    </button>
 
-</div>
-</div>
-                
+                  </div>
+                </div>
+
 
                 {analysisError ? (
                   <div className="analysis-report__message">
@@ -245,7 +245,7 @@ onClick={()=>handleValidateIdea(true)}
                       <h1>{analysis.aiScore}</h1>
                       <p>AI Startup Score</p>
                     </div>
-                  
+
                     <div className="analysis-grid">
                       <AnalysisSection
                         title="Startup Summary"
@@ -283,7 +283,7 @@ onClick={()=>handleValidateIdea(true)}
                       />
                     </div>
                   </div>
-                 
+
                 ) : (
                   <EmptyState
                     title="No AI validation yet"

@@ -43,14 +43,14 @@ export default function AuthPage() {
       const endpoint = isRegisterMode ? "/auth/register" : "/auth/login";
       const payload = isRegisterMode
         ? {
-            name: form.name.trim(),
-            email: form.email.trim(),
-            password: form.password,
-          }
+          name: form.name.trim(),
+          email: form.email.trim(),
+          password: form.password,
+        }
         : {
-            email: form.email.trim(),
-            password: form.password,
-          };
+          email: form.email.trim(),
+          password: form.password,
+        };
 
       const { data } = await api.post(endpoint, payload);
 
@@ -60,7 +60,7 @@ export default function AuthPage() {
     } catch (err) {
       setError(
         err?.response?.data?.message ||
-          "Unable to authenticate. Please try again."
+        "Unable to authenticate. Please try again."
       );
     } finally {
       setIsSubmitting(false);

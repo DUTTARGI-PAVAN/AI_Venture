@@ -61,15 +61,15 @@ export default function ProjectCard({
         ) : null}
 
         {onBoardroom ? (
-  <button
-    type="button"
-    className="btn btn--secondary btn--small"
-    onClick={() => onBoardroom(projectId)}
-  >
-    <Users size={16} />
-    Boardroom
-  </button>
-) : null}
+          <button
+            type="button"
+            className="btn btn--secondary btn--small"
+            onClick={() => onBoardroom(projectId)}
+          >
+            <Users size={16} />
+            Boardroom
+          </button>
+        ) : null}
 
         {onOpen ? (
           <button
