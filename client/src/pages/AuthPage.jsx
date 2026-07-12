@@ -4,7 +4,7 @@ import { LogIn, UserPlus } from "lucide-react";
 import ErrorMessage from "../components/ui/ErrorMessage";
 import api from "../services/api";
 import useStudioStore from "../store/useStudioStore";
-
+import "../styles/auth.css";
 const emptyForm = {
   name: "",
   email: "",
@@ -68,95 +68,192 @@ export default function AuthPage() {
   };
 
   return (
-    <main className="auth-page">
-      <section className="auth-card">
-        <div className="auth-card__intro">
-          <p className="eyebrow">AI Venture Studio</p>
-          <h1>{isRegisterMode ? "Create your account" : "Welcome back"}</h1>
-          <p>
-            Sign in to view your dashboard, manage projects, and continue your
-            venture workspace.
-          </p>
+  <main className="auth-page">
+    <div className="auth-container">
+
+      {/* LEFT SIDE */}
+
+      <section className="auth-left">
+
+        <div className="logo">
+          🤖 AI Venture
         </div>
 
-        <div className="auth-tabs" aria-label="Authentication mode">
-          <button
-            type="button"
-            className={mode === "login" ? "auth-tab auth-tab--active" : "auth-tab"}
-            onClick={() => switchMode("login")}
-          >
-            <LogIn size={16} aria-hidden="true" />
-            Login
-          </button>
-          <button
-            type="button"
-            className={
-              mode === "register" ? "auth-tab auth-tab--active" : "auth-tab"
-            }
-            onClick={() => switchMode("register")}
-          >
-            <UserPlus size={16} aria-hidden="true" />
-            Register
-          </button>
+        <h1>
+          Validate.
+          <br />
+          Analyze.
+          <br />
+          Build Better Startups.
+        </h1>
+
+        <p className="hero-text">
+          AI Venture helps founders validate startup ideas using AI,
+          Executive Boardroom Simulation, Smart Analytics and an
+          AI Copilot.
+        </p>
+
+        <div className="feature-list">
+
+          <div className="feature-card">
+            <span>🤖</span>
+            <div>
+              <h3>AI Validation</h3>
+              <p>Generate detailed startup reports instantly.</p>
+            </div>
+          </div>
+
+          <div className="feature-card">
+            <span>🏛️</span>
+            <div>
+              <h3>Boardroom</h3>
+              <p>Get CEO, CTO, CFO and CMO opinions.</p>
+            </div>
+          </div>
+
+          <div className="feature-card">
+            <span>📊</span>
+            <div>
+              <h3>Analytics</h3>
+              <p>Understand strengths, risks and opportunities.</p>
+            </div>
+          </div>
+
+          <div className="feature-card">
+            <span>🤖</span>
+            <div>
+              <h3>AI Copilot</h3>
+              <p>Ask questions about your startup anytime.</p>
+            </div>
+          </div>
+
         </div>
 
-        <form className="form" onSubmit={handleSubmit}>
-          {error ? <ErrorMessage message={error} /> : null}
+      </section>
 
-          {isRegisterMode ? (
+      {/* RIGHT SIDE */}
+
+      <section className="auth-right">
+
+        <div className="auth-card">
+
+          <div className="auth-card__intro">
+            <p className="eyebrow">AI Venture Studio</p>
+
+            <h1>
+              {isRegisterMode
+                ? "Create your account"
+                : "Welcome Back"}
+            </h1>
+
+            <p>
+              Continue building your startup journey.
+            </p>
+          </div>
+
+          <div
+            className="auth-tabs"
+            aria-label="Authentication mode"
+          >
+            <button
+              type="button"
+              className={
+                mode === "login"
+                  ? "auth-tab auth-tab--active"
+                  : "auth-tab"
+              }
+              onClick={() => switchMode("login")}
+            >
+              <LogIn size={16} />
+              Login
+            </button>
+
+            <button
+              type="button"
+              className={
+                mode === "register"
+                  ? "auth-tab auth-tab--active"
+                  : "auth-tab"
+              }
+              onClick={() => switchMode("register")}
+            >
+              <UserPlus size={16} />
+              Register
+            </button>
+          </div>
+
+          <form
+            className="form"
+            onSubmit={handleSubmit}
+          >
+
+            {error ? (
+              <ErrorMessage message={error} />
+            ) : null}
+
+            {isRegisterMode && (
+              <label className="form-field">
+                <span>Name</span>
+
+                <input
+                  name="name"
+                  value={form.name}
+                  onChange={handleChange}
+                  placeholder="Your Name"
+                  required
+                  disabled={isSubmitting}
+                />
+              </label>
+            )}
+
             <label className="form-field">
-              <span>Name</span>
+              <span>Email</span>
+
               <input
-                name="name"
-                value={form.name}
+                type="email"
+                name="email"
+                value={form.email}
                 onChange={handleChange}
-                placeholder="Your name"
+                placeholder="you@example.com"
                 required
                 disabled={isSubmitting}
               />
             </label>
-          ) : null}
 
-          <label className="form-field">
-            <span>Email</span>
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              placeholder="you@example.com"
-              required
+            <label className="form-field">
+              <span>Password</span>
+
+              <input
+                type="password"
+                name="password"
+                value={form.password}
+                onChange={handleChange}
+                placeholder="••••••••"
+                required
+                minLength="6"
+                disabled={isSubmitting}
+              />
+            </label>
+
+            <button
+              type="submit"
+              className="btn btn--primary auth-button"
               disabled={isSubmitting}
-            />
-          </label>
-
-          <label className="form-field">
-            <span>Password</span>
-            <input
-              type="password"
-              name="password"
-              value={form.password}
-              onChange={handleChange}
-              placeholder="Your password"
-              required
-              minLength="6"
-              disabled={isSubmitting}
-            />
-          </label>
-
-          <button
-            type="submit"
-            className="btn btn--primary"
-            disabled={isSubmitting}
-          >
-            {isSubmitting
-              ? "Please wait..."
-              : isRegisterMode
+            >
+              {isSubmitting
+                ? "Please wait..."
+                : isRegisterMode
                 ? "Create Account"
                 : "Login"}
-          </button>
-        </form>
+            </button>
+
+          </form>
+
+        </div>
+
       </section>
-    </main>
-  );
+
+    </div>
+  </main>
+);
 }
