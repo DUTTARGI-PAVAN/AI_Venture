@@ -121,14 +121,16 @@ export default function ProjectPage() {
         <div className="content-stack">
           <TopNavbar user={user} onLogout={handleLogout} />
 
-          <button
-            type="button"
-            className="btn btn--secondary"
-            onClick={() => navigate("/dashboard")}
-          >
-            <ArrowLeft size={18} aria-hidden="true" />
-            Back to Dashboard
-          </button>
+<div className="back-btn-wrapper">
+  <button
+    type="button"
+    className="btn btn--secondary"
+    onClick={() => navigate("/dashboard")}
+  >
+    <ArrowLeft size={18} />
+    Back to Dashboard
+  </button>
+</div>
 
           {error ? <ErrorMessage message={error} onRetry={loadProject} /> : null}
 

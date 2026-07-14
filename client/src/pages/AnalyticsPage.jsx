@@ -95,15 +95,16 @@ export default function AnalyticsPage() {
         />
 
         <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: "20px",
-            gap: "20px",
-            flexWrap: "wrap",
-          }}
-        >
+  style={{
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    marginTop: "24px",
+    marginBottom: "28px",
+    gap: "20px",
+    flexWrap: "wrap",
+  }}
+>
           <AnalyticsHero project={analytics.project} />
 
           <button
