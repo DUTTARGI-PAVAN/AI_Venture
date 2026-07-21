@@ -25,6 +25,7 @@ export default function AnalyticsPage() {
   const [analytics, setAnalytics] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [boardroom, setBoardroom] = useState(null);
 
   useEffect(() => {
     if (!projectId) {
@@ -43,7 +44,21 @@ export default function AnalyticsPage() {
       const { data } = await api.get(`/analytics/${projectId}`);
 
       setAnalytics(data.analytics);
-    } catch (err) {
+      try {
+      const boardroomResponse = await api.get(
+        `/boardroom/${projectId}`
+      );
+
+      setBoardroom(boardroomResponse.data.boardroom);
+
+    } catch {
+      // No boardroom report exists
+      setBoardroom(null);
+    }
+
+      
+    } 
+    catch (err) {
       setError(
         err?.response?.data?.message ||
         "Failed to load analytics."
@@ -51,6 +66,7 @@ export default function AnalyticsPage() {
     } finally {
       setLoading(false);
     }
+    
   }
 
   const handleLogout = () => {
@@ -108,11 +124,13 @@ export default function AnalyticsPage() {
           <AnalyticsHero project={analytics.project} />
 
           <button
-            className="btn btn--primary"
-            onClick={() => exportAnalyticsPDF(analytics)}
-          >
-            📄 Export PDF
-          </button>
+  className="btn btn--primary"
+  onClick={() =>
+    exportAnalyticsPDF(analytics, boardroom)
+  }
+>
+  📄 Export PDF
+</button>
         </div>
 
         <div className="analytics-score-grid">

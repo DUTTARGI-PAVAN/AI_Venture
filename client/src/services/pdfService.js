@@ -1,7 +1,14 @@
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
-export function exportAnalyticsPDF(analytics) {
+function checkPageBreak(space = 20) {
+  if (y + space > 280) {
+    doc.addPage();
+    y = 20;
+  }
+}
+
+export function exportAnalyticsPDF(analytics,boardroom) {
   const doc = new jsPDF();
 
   let y = 20;
@@ -128,7 +135,131 @@ export function exportAnalyticsPDF(analytics) {
     { maxWidth: 170 }
   );
 
-  doc.save(
-    `${analytics.project.title}-Report.pdf`
+  // ==========================
+// BOARDROOM REPORT
+// ==========================
+
+if (boardroom) {
+
+  // Create a new page
+  doc.addPage();
+  y = 20;
+
+  doc.setFontSize(22);
+  doc.text("AI Boardroom Report", 14, y);
+
+  y += 15;
+
+  // Final Decision
+  doc.setFontSize(16);
+  doc.text("Final Decision", 14, y);
+
+  y += 8;
+
+  doc.setFontSize(11);
+  doc.text(String(boardroom.finalDecision), 18, y);
+
+  y += 12;
+
+
+  // Average Score
+  doc.setFontSize(16);
+  doc.text("Average Score", 14, y);
+
+  y += 8;
+
+  doc.setFontSize(11);
+  doc.text(String(boardroom.averageScore), 18, y);
+
+  y += 12;
+
+
+  // Consensus Summary
+  doc.setFontSize(16);
+  doc.text("Consensus Summary", 14, y);
+
+  y += 8;
+
+  const consensusText = doc.splitTextToSize(
+    boardroom.consensus,
+    170
   );
+
+  doc.setFontSize(11);
+  doc.text(consensusText, 18, y);
+
+  y += consensusText.length * 6 + 10;
+
+
+  // Executive Analysis
+  boardroom.agents.forEach((agent) => {
+
+    doc.addPage();
+
+    y = 20;
+
+    doc.setFontSize(20);
+    doc.text(`${agent.role} Analysis`, 14, y);
+
+    y += 15;
+
+
+    // Score
+    doc.setFontSize(14);
+    doc.text(`Score : ${agent.score}`, 14, y);
+
+    y += 12;
+
+
+    // Strengths
+    doc.setFontSize(14);
+    doc.text("Strengths", 14, y);
+
+    y += 8;
+
+    agent.strengths.forEach((item) => {
+      doc.setFontSize(11);
+      doc.text(`• ${item}`, 18, y);
+      y += 7;
+    });
+
+    y += 5;
+
+
+    // Concerns
+    doc.setFontSize(14);
+    doc.text("Concerns", 14, y);
+
+    y += 8;
+
+    agent.concerns.forEach((item) => {
+      doc.setFontSize(11);
+      doc.text(`• ${item}`, 18, y);
+      y += 7;
+    });
+
+    y += 5;
+
+
+    // Recommendations
+    doc.setFontSize(14);
+    doc.text("Recommendations", 14, y);
+
+    y += 8;
+
+    agent.recommendations.forEach((item) => {
+      doc.setFontSize(11);
+      doc.text(`• ${item}`, 18, y);
+      y += 7;
+    });
+
+  });
+
+}
+
+
+// Save PDF
+doc.save(
+  `${analytics.project.title}-Report.pdf`
+);
 }
