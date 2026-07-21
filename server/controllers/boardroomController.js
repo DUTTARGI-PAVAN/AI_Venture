@@ -12,10 +12,14 @@ exports.runBoardroom = async (req, res) => {
     console.log("Project ID:", projectId);
 console.log("Logged-in User:", req.user.id);
 
-    const project = await Project.findOne({
-      _id: projectId,
-      user: req.user.id,
-    }).populate("latestAnalysis");
+    const project = await Project.findById(projectId).populate("latestAnalysis");
+
+console.log("Project:", project);
+
+if (project) {
+  console.log("Project owner:", project.user.toString());
+  console.log("Logged in user:", req.user.id);
+}
 
     console.log("Project:", project);
 

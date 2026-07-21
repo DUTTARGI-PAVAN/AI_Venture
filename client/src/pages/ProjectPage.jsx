@@ -178,7 +178,7 @@ export default function ProjectPage() {
               </section>
 
               <section className="panel">
-                <div className="panel__header">
+                <div className="panel__header validation-header">
                   <div>
                     <p className="eyebrow">AI Idea Validation</p>
                     <h2 className="panel__title">Startup validation report</h2>

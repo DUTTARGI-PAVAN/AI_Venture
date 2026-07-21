@@ -43,6 +43,18 @@ ${project.stage}
 Summary:
 ${analysis.startupSummary}
 
+Problem Statement:
+${analysis.problemStatement}
+
+Target Audience:
+${analysis.targetAudience}
+
+Market Opportunity:
+${analysis.marketOpportunity}
+
+Competitor Analysis:
+${analysis.competitorAnalysis}
+
 AI Score:
 ${analysis.aiScore}
 

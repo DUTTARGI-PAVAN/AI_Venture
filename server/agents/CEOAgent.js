@@ -45,6 +45,18 @@ Existing AI Analysis
 Summary:
 ${analysis.startupSummary}
 
+Problem Statement:
+${analysis.problemStatement}
+
+Target Audience:
+${analysis.targetAudience}
+
+Market Opportunity:
+${analysis.marketOpportunity}
+
+Competitor Analysis:
+${analysis.competitorAnalysis}
+
 Strengths:
 ${analysis.strengths.join(", ")}
 
